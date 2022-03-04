@@ -4,7 +4,7 @@ pygame.init()
 
 
 def main():
-    board = [ [0, 0, 0], [0, 0, 0], [0, 0, 0] ]
+    board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 
     run = True
     clock = pygame.time.Clock()
@@ -12,9 +12,10 @@ def main():
 
     window.draw_window()
     window.draw_lines()
-    window.draw_cross()
+    pygame.display.update()
 
     while run:
+
         clock.tick(60)
 
         for event in pygame.event.get():
@@ -23,8 +24,8 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     pos = pygame.mouse.get_pos()
-                    row = pos[1] // (window.width // 3)
                     col = pos[0] // (window.width // 3)
+                    row = pos[1] // (window.width // 3)
 
     pygame.quit()
 
