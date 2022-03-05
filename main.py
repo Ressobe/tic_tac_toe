@@ -1,21 +1,18 @@
-from draw_class import Draw, pygame
+from draw_class import Game, pygame
 
 pygame.init()
 
 
 def main():
-    board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-
     run = True
     clock = pygame.time.Clock()
-    window = Draw(600, 600)
+    player = "x"
 
-    window.draw_window()
-    window.draw_lines()
-    pygame.display.update()
+    game = Game(600, 600)
+    game.draw_window()
+    game.draw_lines()
 
     while run:
-
         clock.tick(60)
 
         for event in pygame.event.get():
@@ -24,8 +21,19 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     pos = pygame.mouse.get_pos()
-                    col = pos[0] // (window.width // 3)
-                    row = pos[1] // (window.width // 3)
+                    row = pos[1] // (game.width // 3)
+                    col = pos[0] // (game.width // 3)
+
+                    if game.check_board(row, col):
+                        if player == "x":
+                            game.draw_cross(row, col)
+                            game.change_board(row, col, player)
+                            player = "o"
+
+                        elif player:
+                            game.draw_circle(row, col)
+                            game.change_board(row, col, player)
+                            player = "x"
 
     pygame.quit()
 
