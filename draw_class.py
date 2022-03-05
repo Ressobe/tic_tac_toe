@@ -113,6 +113,10 @@ class Game:
 
         pygame.display.flip()
 
+    def start(self):
+        self.draw_window()
+        self.draw_lines()
+
     def draw_circle(self, row, col):
         self.row = row
         self.col = col
@@ -153,4 +157,29 @@ class Game:
         return True
 
     def check_win(self):
-        pass
+        cross_win = ["x", "x", "x"]
+        circle_win = ["o", "o", "o"]
+
+        for i in range(0, 3):
+            if self.BOARD[i] == cross_win or self.BOARD == circle_win:
+                return True
+
+            column = []
+            for j in range(0, 3):
+                column.append(self.BOARD[j][i])
+
+            if column == cross_win or column == circle_win:
+                return True
+
+        diagonal_1 = [self.BOARD[i][i] for i in range(0, 3)]
+        if diagonal_1 == cross_win or diagonal_1 == circle_win:
+            return True
+
+        diagonal_2 = []
+        for i in range(2, -1, -1):
+            diagonal_2.append(self.BOARD[i][abs(i - 2)])
+
+        if diagonal_2 == cross_win or diagonal_2 == circle_win:
+            return True
+
+        return False
