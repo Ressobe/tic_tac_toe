@@ -1,7 +1,7 @@
 import pygame
 
 
-class Draw:
+class Game:
     BLACK = (0, 0, 0)
     WHITE = (255, 255, 255)
 
@@ -18,12 +18,61 @@ class Draw:
     PADDING = 10
     MARGIN = 20
 
+    BOARD = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+
     def __init__(self, width: int, height: int):
         self.width = width
         self.height = height
+
         self.window = pygame.display.set_mode((width, height))
+
         self.board_width = self.width // 3 - self.MARGIN
         self.board_height = self.height // 3 - self.MARGIN
+
+        self.x = self.board_width // 2
+        self.y = self.board_height // 2
+
+        self.BOARD_POSITIONS = [
+            [
+                (
+                    self.x,
+                    self.y,
+                ),
+                (self.x + self.board_width + self.MARGIN + self.PADDING, self.y),
+                (
+                    self.x + ((self.board_width + self.MARGIN + self.PADDING) * 2),
+                    self.y,
+                ),
+            ],
+            [
+                (
+                    self.x,
+                    self.y + self.board_height + self.MARGIN + self.PADDING,
+                ),
+                (
+                    self.x + self.board_width + self.MARGIN + self.PADDING,
+                    self.y + self.board_height + self.MARGIN + self.PADDING,
+                ),
+                (
+                    self.x + ((self.board_width + self.MARGIN + self.PADDING) * 2),
+                    self.y + self.board_height + self.MARGIN + self.PADDING,
+                ),
+            ],
+            [
+                (
+                    self.x,
+                    self.y + (self.board_height + self.MARGIN + self.PADDING) * 2,
+                ),
+                (
+                    self.x + self.board_width + self.MARGIN + self.PADDING,
+                    self.y + ((self.board_height + self.MARGIN + self.PADDING) * 2),
+                ),
+                (
+                    self.x + ((self.board_width + self.MARGIN + self.PADDING) * 2),
+                    self.y + ((self.board_height + self.MARGIN + self.PADDING) * 2),
+                ),
+            ],
+        ]
 
         pygame.display.set_caption("Tic Tac Toe")
 
@@ -63,3 +112,45 @@ class Draw:
         )
 
         pygame.display.flip()
+
+    def draw_circle(self, row, col):
+        self.row = row
+        self.col = col
+
+        circle = pygame.image.load("circle.png").convert_alpha()
+        circle_rect = circle.get_rect()
+
+        circle_rect.center = (
+            self.BOARD_POSITIONS[row][col][0],
+            self.BOARD_POSITIONS[row][col][1],
+        )
+
+        self.window.blit(circle, circle_rect)
+        pygame.display.flip()
+
+    def draw_cross(self, row, col):
+        self.row = row
+        self.col = col
+
+        cross = pygame.image.load("cross.png").convert_alpha()
+        cross_rect = cross.get_rect()
+
+        cross_rect.center = (
+            self.BOARD_POSITIONS[row][col][0],
+            self.BOARD_POSITIONS[row][col][1],
+        )
+
+        self.window.blit(cross, cross_rect)
+        pygame.display.flip()
+
+    def change_board(self, row, col, player):
+        self.BOARD[row][col] = player
+        print(self.BOARD)
+
+    def check_board(self, row, col):
+        if self.BOARD[row][col] != 0:
+            return False
+        return True
+
+    def check_win(self):
+        pass
