@@ -18,9 +18,8 @@ class Game:
     PADDING = 10
     MARGIN = 20
 
-    BOARD = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-
     def __init__(self, width: int, height: int):
+        self.board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
         self.width = width
         self.height = height
 
@@ -76,6 +75,9 @@ class Game:
 
         pygame.display.set_caption("Tic Tac Toe")
 
+    def reset_board(self):
+        self.board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+
     def draw_window(self):
         self.window.fill(self.BACKGROUND)
         pygame.display.update()
@@ -103,6 +105,7 @@ class Game:
             (self.board_width + self.MARGIN, self.height),
             self.LINE_WIDTH,
         )
+
         pygame.draw.line(
             self.window,
             self.BLACK,
@@ -148,11 +151,10 @@ class Game:
         pygame.display.flip()
 
     def change_board(self, row, col, player):
-        self.BOARD[row][col] = player
-        print(self.BOARD)
+        self.board[row][col] = player
 
     def check_board(self, row, col):
-        if self.BOARD[row][col] != 0:
+        if self.board[row][col] != 0:
             return False
         return True
 
@@ -161,25 +163,33 @@ class Game:
         circle_win = ["o", "o", "o"]
 
         for i in range(0, 3):
-            if self.BOARD[i] == cross_win or self.BOARD == circle_win:
+            if self.board[i] == cross_win or self.board[i] == circle_win:
                 return True
 
             column = []
             for j in range(0, 3):
-                column.append(self.BOARD[j][i])
+                column.append(self.board[j][i])
 
             if column == cross_win or column == circle_win:
                 return True
 
-        diagonal_1 = [self.BOARD[i][i] for i in range(0, 3)]
+        diagonal_1 = [self.board[i][i] for i in range(0, 3)]
         if diagonal_1 == cross_win or diagonal_1 == circle_win:
             return True
 
         diagonal_2 = []
         for i in range(2, -1, -1):
-            diagonal_2.append(self.BOARD[i][abs(i - 2)])
+            diagonal_2.append(self.board[i][abs(i - 2)])
 
         if diagonal_2 == cross_win or diagonal_2 == circle_win:
             return True
 
         return False
+
+    def check_space(self):
+        licznik = 0
+        for row in self.board:
+            for i in row:
+                if i != 0:
+                    licznik += 1
+        return licznik
