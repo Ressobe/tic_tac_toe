@@ -6,7 +6,7 @@ pygame.init()
 
 
 def main():
-    font = pygame.font.SysFont("Monospace", 24)
+    font = pygame.font.SysFont("hacknerdfont", 24)
 
     run = True
     pause = False
@@ -59,7 +59,7 @@ def main():
 
         if pause:
             img = font.render(f"Winner: {winner}", True, (255, 255, 255))
-            img2 = font.render("Press 'R' to restart", True, (255, 255, 255))
+            img2 = font.render("Press 'r' to restart", True, (255, 255, 255))
             rect = img.get_rect()
             rect2 = img2.get_rect()
             rect.center = (300, 300)
